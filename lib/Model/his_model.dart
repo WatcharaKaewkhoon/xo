@@ -1,8 +1,12 @@
-class His{
-  final int id;
-  final int score;
-  His({
-    required this.id,
-    required this.score
-});
+class HistoryModel {
+  int id;
+  String winner;
+
+  dataMap() {
+    var mapData = Map<String, dynamic>();
+    mapData['id'] = id;
+    mapData['winner'] = winner;
+
+    return mapData;
+  }
 }

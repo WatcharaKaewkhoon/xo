@@ -1,89 +1,34 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:xo/database/db_connect.dart';
-import 'dart:io';
-
 
 class DBService{
+  DBconnect _DBconnect;
+  String tableName = 'xoDB';
 
-  DBconnect _connect;
-  String tbname = 'hisDB';
-
-
-  DBService(this._connect){
-     _connect = DBconnect();
+  DBService(){
+    _DBconnect = DBconnect();
   }
 
-  static Database? _database;
-  Future<Database> get database async =>
-      _database ??= await _connect.setDatabase();
+  static Database _database;
+
+  Future<Database> get database async {
+    if(_database != null) return _database;
+    _database = await _DBconnect.setDatabase();
+    return _database;
+  }
 
   read() async{
     var connect = await database;
-    return await connect.query(tbname);
+    return await connect.query(tableName);
   }
 
-  insert(data)async{
+  insert(data) async{
     var connect = await database;
-    return await connect.query(tbname);
+    return await connect.insert(tableName,data);
+  }
+  deleteOnly(id) async{
+    var connect = await database;
+    return await connect.delete(tableName,where: 'id=?',whereArgs: [id]);
   }
 
 }
-
-//
-// // import 'package:path_provider/path_provider.dart';
-// import 'package:path/path.dart';
-// import 'package:sqflite/sqflite.dart';
-//
-// class DatabaseHelper {
-//   static final _dbName = 'Database.db';
-//   static final _dbVersion = 1;
-//   static final _tableName = 'my table';
-//
-//   static final columnId = '_id';
-//   static final columnName = 'name';
-//
-//   DatabaseHelper._privateConstuctor();
-//   static final DatabaseHelper instance = DatabaseHelper._privateConstuctor();
-//
-//   static Database? _database;
-//   Future<Database> get database async =>
-//       _database ??= await _initiateDatabase();
-//
-//   _initiateDatabase() async {
-//     Directory directory = await getApplicationDocumentsDirectory();
-//     String path = join(directory.path, _dbName);
-//     return await openDatabase(path, version: _dbVersion, onCreate: _onCreate);
-//   }
-//
-//   Future _onCreate(Database db, int version) async {
-//     await db.execute('''
-//           CREATE TABLE $_tableName (
-//           $columnId INTEGER PRIMARY KEY,
-//           $columnName TEXT NOT NULL)
-//
-//
-//           ''');
-//   }
-//
-//   Future<int> insert(Map<String, dynamic> row) async {
-//     Database db = await instance.database;
-//     return await db.insert(_tableName, row);
-//   }
-//
-//   Future<List<Map<String, dynamic>>> queryAll() async {
-//     Database db = await instance.database;
-//     return await db.query(_tableName);
-//   }
-//
-//   Future<int> update(Map<String, dynamic> row) async {
-//     Database db = await instance.database;
-//     int id = row[columnId];
-//     return await db
-//         .update(_tableName, row, where: '$columnId = ?', whereArgs: [id]);
-//   }
-//
-//   Future<int> delete(int id) async {
-//     Database db = await instance.database;
-//     return await db.delete(_tableName, where: '$columnId = ?', whereArgs: [id]);
-//   }
-// }

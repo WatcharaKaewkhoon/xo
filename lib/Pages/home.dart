@@ -8,53 +8,65 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
+
   var size = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: Center(
+      body: SafeArea(
+        minimum: EdgeInsets.zero,
         key: _formKey,
-        child: Container(
-          // color: Colors.red,
-          height: MediaQuery.of(context).size.height,
-          margin: EdgeInsets.all(MediaQuery.of(context).size.width / 15),
-          // width: MediaQuery.of(context).size.width ,
-          child: Column(
-            children: [
-              TextFormField(
-                textAlign: TextAlign.center,
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+        child: Wrap(
+          children: [
+            Container(
+              margin: EdgeInsets.all(50),
+              height: screenSize.height,
+              width: screenSize.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset('assets/game.png',color: Colors.red,fit: BoxFit.contain,width: screenSize.width,height: screenSize.height*0.5),
+                  TextFormField(
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+                    ],
+                    controller: size,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      // focusedBorder: OutlineInputBorder(),
+                      labelText: 'Enter Size',
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: playgame(context,'playgame'),
+                  ),
                 ],
-                controller: size,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Enter Size',
-                ),
               ),
-
-              padding(),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    textStyle: TextStyle(fontSize: 20)),
-                onPressed: () {
-                  if(size.text==''){
-                    print(null);
-                  }else{
-                    push(context);
-                    print(size.text);
-                  }
-
-                },
-                child: Text('Play Game'),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  ElevatedButton playgame(BuildContext context, String str) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(textStyle: TextStyle(fontSize: 20),),
+      onPressed: () {
+        if (size.text == '') {
+          print(null);
+        } else {
+          push(context);
+          print(size.text);
+        }
+      },
+      child: Text(str),
     );
   }
 
@@ -63,7 +75,7 @@ class _homeState extends State<home> {
       context,
       MaterialPageRoute(
         builder: (context) => game(
-          size: int.parse(size.text),
+          int.parse(size.text),
           // size: size.text,
         ),
       ),
