@@ -33,7 +33,10 @@ class _showHistoryState extends State<showHistory> {
     var screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('Tic Tac Toe'),
+      ),
       body: Container(
         child: ListView.builder(
             itemCount: hisList.length,

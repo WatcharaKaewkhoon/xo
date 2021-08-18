@@ -8,7 +8,6 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
-
   var size = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
@@ -21,12 +20,16 @@ class _homeState extends State<home> {
           children: [
             Center(
               child: Container(
-                margin: EdgeInsets.all(screenSize.width*0.05),
+                margin: EdgeInsets.all(screenSize.width * 0.05),
                 width: screenSize.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset('assets/game.png',color: Colors.red,fit: BoxFit.contain,width: screenSize.width,height: screenSize.height*0.5),
+                    Image.asset('assets/game.png',
+                        color: Colors.red,
+                        fit: BoxFit.contain,
+                        width: screenSize.width,
+                        height: screenSize.height * 0.5),
                     TextFormField(
                       textAlign: TextAlign.center,
                       keyboardType: TextInputType.number,
@@ -40,10 +43,9 @@ class _homeState extends State<home> {
                         labelText: 'Enter Size Minimum 3',
                       ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: playgame(context,'Play Game'),
+                      child: playgame(context, 'Play Game'),
                     ),
                   ],
                 ),
@@ -57,9 +59,11 @@ class _homeState extends State<home> {
 
   ElevatedButton playgame(BuildContext context, String str) {
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(textStyle: TextStyle(fontSize: 20),),
+      style: ElevatedButton.styleFrom(
+        textStyle: TextStyle(fontSize: 20),
+      ),
       onPressed: () {
-        if (size.text == '' || size.text=='1'||size.text=='2') {
+        if (size.text == '' || size.text == '1' || size.text == '2') {
           showEndDialog('Please enter size minimum 3 ');
         } else {
           push(context);
@@ -80,23 +84,24 @@ class _homeState extends State<home> {
       ),
     );
   }
+
   Future showEndDialog(String title) => showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (context) => AlertDialog(
-      title: Text(title),
-      actions: [
-        Center(
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('OK'),
-          ),
-        )
-      ],
-    ),
-  );
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          title: Text(title),
+          actions: [
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            )
+          ],
+        ),
+      );
 }
 
 Padding padding() => Padding(

@@ -44,7 +44,10 @@ class _gameState extends State<game> {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('Tic Tac Toe'),
+      ),
       body: SafeArea(
         child: Container(
           decoration: new BoxDecoration(shape: BoxShape.rectangle),
@@ -53,15 +56,12 @@ class _gameState extends State<game> {
           child: Center(
             child: Wrap(
               children: <Widget>[
-                // Padding(padding: EdgeInsets.only(top: 50)),
                 Container(
-                  // color: Colors.red,
                   child: Column(
                     children:
                         model.modelBuilder(matrix, (x, value) => buildRow(x)),
                   ),
                 ),
-
                 Container(
                   margin: EdgeInsets.only(top: screenSize.height * 0.05),
                   child: Row(
@@ -146,8 +146,8 @@ class _gameState extends State<game> {
       if (matrix[i][i] == player) diag++;
       if (matrix[i][n - i - 1] == player) rdiag++;
     }
-    if (n >= 4) {
-      win = 4;
+    if (n >= widget.size) {
+      win = widget.size;
     }
     return row == win || col == win || diag == win || rdiag == win;
   }
