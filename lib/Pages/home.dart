@@ -37,13 +37,13 @@ class _homeState extends State<home> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         // focusedBorder: OutlineInputBorder(),
-                        labelText: 'Enter Size',
+                        labelText: 'Enter Size Minimum 3',
                       ),
                     ),
 
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: playgame(context,'playgame'),
+                      child: playgame(context,'Play Game'),
                     ),
                   ],
                 ),
@@ -59,11 +59,10 @@ class _homeState extends State<home> {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(textStyle: TextStyle(fontSize: 20),),
       onPressed: () {
-        if (size.text == '') {
-          print(null);
+        if (size.text == '' || size.text=='1'||size.text=='2') {
+          showEndDialog('Please enter size minimum 3 ');
         } else {
           push(context);
-          print(size.text);
         }
       },
       child: Text(str),
@@ -81,6 +80,23 @@ class _homeState extends State<home> {
       ),
     );
   }
+  Future showEndDialog(String title) => showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => AlertDialog(
+      title: Text(title),
+      actions: [
+        Center(
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        )
+      ],
+    ),
+  );
 }
 
 Padding padding() => Padding(

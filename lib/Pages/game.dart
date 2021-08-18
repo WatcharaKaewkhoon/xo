@@ -38,41 +38,42 @@ class _gameState extends State<game> {
         widget.size,
         (_) => List.generate(widget.size, (_) => none),
       );
-      print(matrix);
     });
   }
 
   Widget build(BuildContext context) {
-
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(),
-      body: Container(
-        margin: EdgeInsets.all(screenSize.height * 0.05),
-        width: screenSize.width,
-        child: Center(
-          child: Wrap(
-            children: <Widget>[
-              // Padding(padding: EdgeInsets.only(top: 50)),
-              Container(
-                // color: Colors.red,
-                child: Column(
-                  children:
-                      model.modelBuilder(matrix, (x, value) => buildRow(x)),
+      body: SafeArea(
+        child: Container(
+          decoration: new BoxDecoration(shape: BoxShape.rectangle),
+          margin: EdgeInsets.all(screenSize.height * 0.05),
+          width: screenSize.width,
+          child: Center(
+            child: Wrap(
+              children: <Widget>[
+                // Padding(padding: EdgeInsets.only(top: 50)),
+                Container(
+                  // color: Colors.red,
+                  child: Column(
+                    children:
+                        model.modelBuilder(matrix, (x, value) => buildRow(x)),
+                  ),
                 ),
-              ),
 
-              Container(
-                margin: EdgeInsets.only(top:screenSize.height * 0.05),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ResetButton(context),
-                    HistoryButton(context),
-                  ],
+                Container(
+                  margin: EdgeInsets.only(top: screenSize.height * 0.05),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ResetButton(context),
+                      HistoryButton(context),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -83,7 +84,6 @@ class _gameState extends State<game> {
 
   Widget buildRow(int x) {
     final values = matrix[x];
-    print(values);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: model.modelBuilder(
@@ -94,12 +94,11 @@ class _gameState extends State<game> {
   }
 
   Widget buildField(int x, int y) {
-    var s = 0.5/widget.size;
-    var sizeBoxW = MediaQuery.of(context).size.width*s;
+    var s = 0.5 / widget.size;
+    var sizeBoxW = MediaQuery.of(context).size.width * s;
     final value = matrix[x][y];
     return Expanded(
-      // flex: null,
-      // margin: EdgeInsets.all(4),
+      flex: null,
       child: SizedBox(
         width: sizeBoxW,
         height: sizeBoxW,
@@ -116,9 +115,7 @@ class _gameState extends State<game> {
 
   void selectField(String value, int x, int y) {
     if (value == none) {
-      final newValue = lastMove == X?  O: X;
-
-      print(newValue);
+      final newValue = lastMove == X ? O : X;
       setState(() {
         lastMove = newValue;
         matrix[x][y] = newValue;
@@ -137,7 +134,6 @@ class _gameState extends State<game> {
   bool isEnd() =>
       matrix.every((values) => values.every((value) => value != none));
 
-  /// Check out logic here: https://stackoverflow.com/a/1058804
   bool isWinner(int x, int y) {
     var col = 0, row = 0, diag = 0, rdiag = 0;
     final player = matrix[x][y];
@@ -150,8 +146,8 @@ class _gameState extends State<game> {
       if (matrix[i][i] == player) diag++;
       if (matrix[i][n - i - 1] == player) rdiag++;
     }
-    if(n>=4){
-      win=4;
+    if (n >= 4) {
+      win = 4;
     }
     return row == win || col == win || diag == win || rdiag == win;
   }
@@ -180,7 +176,6 @@ class _gameState extends State<game> {
     DBService service = new DBService();
     HistoryModel his = new HistoryModel();
     his.winner = winner;
-    print(winner);
     var data = his.dataMap();
     service.insert(data);
   }
