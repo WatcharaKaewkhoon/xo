@@ -16,37 +16,37 @@ class _homeState extends State<home> {
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
-        minimum: EdgeInsets.zero,
         key: _formKey,
         child: Wrap(
           children: [
-            Container(
-              margin: EdgeInsets.all(50),
-              height: screenSize.height,
-              width: screenSize.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset('assets/game.png',color: Colors.red,fit: BoxFit.contain,width: screenSize.width,height: screenSize.height*0.5),
-                  TextFormField(
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp('[0-9]')),
-                    ],
-                    controller: size,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      // focusedBorder: OutlineInputBorder(),
-                      labelText: 'Enter Size',
+            Center(
+              child: Container(
+                margin: EdgeInsets.all(screenSize.width*0.05),
+                width: screenSize.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/game.png',color: Colors.red,fit: BoxFit.contain,width: screenSize.width,height: screenSize.height*0.5),
+                    TextFormField(
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+                      ],
+                      controller: size,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        // focusedBorder: OutlineInputBorder(),
+                        labelText: 'Enter Size',
+                      ),
                     ),
-                  ),
 
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: playgame(context,'playgame'),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: playgame(context,'playgame'),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
