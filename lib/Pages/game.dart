@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_launcher_icons/ios.dart';
 import 'package:xo/Model/his_model.dart';
 import 'package:xo/Model/model.dart';
 import 'package:xo/Pages/history.dart';
@@ -25,10 +26,7 @@ class _gameState extends State<game> {
   @override
   void initState() {
     super.initState();
-    int row = widget.size;
-    int col = widget.size;
-    var twoDList = List.generate(row, (i) => List(col), growable: false);
-    matrix = twoDList;
+
     setEmptyFields();
   }
 
@@ -50,7 +48,6 @@ class _gameState extends State<game> {
       ),
       body: SafeArea(
         child: Container(
-          decoration: new BoxDecoration(shape: BoxShape.rectangle),
           margin: EdgeInsets.all(screenSize.height * 0.05),
           width: screenSize.width,
           child: Center(
@@ -135,21 +132,32 @@ class _gameState extends State<game> {
       matrix.every((values) => values.every((value) => value != none));
 
   bool isWinner(int x, int y) {
-    var col = 0, row = 0, diag = 0, rdiag = 0;
+    var col = 0, row = 0, ii = 0, rii = 0;
     final player = matrix[x][y];
     final n = widget.size;
     var win = n;
 
     for (int i = 0; i < n; i++) {
-      if (matrix[x][i] == player) col++;
-      if (matrix[i][y] == player) row++;
-      if (matrix[i][i] == player) diag++;
-      if (matrix[i][n - i - 1] == player) rdiag++;
+      if (matrix[x][i] == player) {
+        col++;
+      }
+      if (matrix[i][y] == player) {
+        row++;
+      }
+      if (matrix[i][i] == player) {
+        ii++;
+      }
+      if (matrix[i][n - i - 1] == player) {
+        rii++;
+      }
     }
-    if (n >= widget.size) {
-      win = widget.size;
-    }
-    return row == win || col == win || diag == win || rdiag == win;
+  
+    //for fix size win   
+    // if (n >= widget.size) {
+    //   win = 4;
+    // }
+
+    return row == win || col == win || ii == win || rii == win;
   }
 
   Future showEndDialog(String title) => showDialog(
